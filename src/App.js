@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import routes from './Routes';
+import Home from './screens/Home';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
+import Profile from './screens/Profile';
+import Chatting from './screens/Chatting';
+import { GlobalStyle, darkTheme, whiteTheme } from './styles';
+import { ThemeProvider } from 'styled-components';
+import { useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [isLogin, setIsLogin] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
+
+    return (
+        <ThemeProvider theme={darkMode ? darkTheme : whiteTheme}>
+            <GlobalStyle />
+            <Router>
+                <Routes>
+                    <Route path={routes.home} element={isLogin ? <Home /> : <Login />} />
+                    <Route path={routes.signup} element={<SignUp />} />
+                    <Route path={routes.profile} element={<Profile />} />
+                    <Route path={routes.chatting} element={<Chatting />} />
+                </Routes>
+            </Router>
+        </ThemeProvider>
+    );
 }
 
 export default App;
