@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
 
 import { styled } from 'styled-components';
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     display: flex;
@@ -95,6 +97,9 @@ const Or = styled.div`
 function Login() {
     return (
         <Container>
+            <Helmet>
+                <title>Instagram | Login</title>
+            </Helmet>
             <Wrapper>
                 <TopBox>
                     <div>
@@ -116,7 +121,7 @@ function Login() {
                     </Facebook>
                 </TopBox>
                 <BottomBox>
-                    계정이 없으신가요? &nbsp;<a href="/login">가입하기</a>
+                    계정이 없으신가요? &nbsp;<Link to="/signup">가입하기</Link>
                 </BottomBox>
             </Wrapper>
         </Container>

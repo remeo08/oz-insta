@@ -23,7 +23,7 @@ export const GlobalStyle = createGlobalStyle`
 
     body{
         font-size: 14px;
-        color: %{(props) => props.theme.fontColor}
-        background-color: %{(props) => props.theme.bgColor}
+        color: ${(props) => props.theme.fontColor};
+        background-color: ${(props) => props.theme.bgColor};
     }
 `;

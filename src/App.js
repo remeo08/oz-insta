@@ -9,22 +9,38 @@ import { GlobalStyle, darkTheme, whiteTheme } from './styles';
 import { ThemeProvider } from 'styled-components';
 import { useState } from 'react';
 
+import { HelmetProvider } from 'react-helmet-async';
+import Layout from './components/Layout';
+
 function App() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     const [darkMode, setDarkMode] = useState(false);
 
     return (
-        <ThemeProvider theme={darkMode ? darkTheme : whiteTheme}>
-            <GlobalStyle />
-            <Router>
-                <Routes>
-                    <Route path={routes.home} element={isLogin ? <Home /> : <Login />} />
-                    <Route path={routes.signup} element={<SignUp />} />
-                    <Route path={routes.profile} element={<Profile />} />
-                    <Route path={routes.chatting} element={<Chatting />} />
-                </Routes>
-            </Router>
-        </ThemeProvider>
+        <HelmetProvider>
+            <ThemeProvider theme={darkMode ? darkTheme : whiteTheme}>
+                <GlobalStyle />
+                <Router>
+                    <Routes>
+                        <Route
+                            path={routes.home}
+                            element={
+                                isLogin ? (
+                                    <Layout>
+                                        <Home />
+                                    </Layout>
+                                ) : (
+                                    <Login />
+                                )
+                            }
+                        />
+                        <Route path={routes.signup} element={<SignUp />} />
+                        <Route path={routes.profile} element={<Profile />} />
+                        <Route path={routes.chatting} element={<Chatting />} />
+                    </Routes>
+                </Router>
+            </ThemeProvider>
+        </HelmetProvider>
     );
 }
 
