@@ -50,7 +50,7 @@ function Header() {
                     <span>
                         <FontAwesomeIcon icon={faUser} size="xl" style={{ color: '#181818' }} />
                     </span>
-                    <Button type="button">버튼</Button>
+                    <Button type="button"></Button>
                 </Column>
             </Wrapper>
         </HeaderContainer>

@@ -1,7 +1,7 @@
 const routes = {
     home: '/',
     signup: '/signup',
-    profile: '/profile/:username',
+    profile: '/profile', //    profile: '/profile/:username',
     chatting: '/chatting',
 };
 
