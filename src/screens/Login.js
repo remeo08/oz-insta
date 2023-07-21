@@ -4,6 +4,7 @@ import { faInstagram, faSquareFacebook } from '@fortawesome/free-brands-svg-icon
 import { styled } from 'styled-components';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Container = styled.div`
     display: flex;
@@ -95,6 +96,25 @@ const Or = styled.div`
 `;
 
 function Login() {
+    //useState(): 컴포넌트에서 바뀌는 변수 또는 값을 관리해주는 함수
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const onChange = (event) => {
+        const { name, value } = event.currentTarget;
+        console.log(name, value);
+
+        if (name === 'username') {
+            setUserName(value);
+        } else if (name === 'password') {
+            setPassword(value);
+        }
+    };
+
+    const onSubmit = (event) => {
+        event.preventDefault(); //새로고침 방지
+        console.log('onSubmit');
+    };
+
     return (
         <Container>
             <Helmet>
@@ -105,9 +125,9 @@ function Login() {
                     <div>
                         <FontAwesomeIcon icon={faInstagram} size="3x" />
                     </div>
-                    <Form>
-                        <Input name="username" type="text" placeholder="유저네임" />
-                        <Input name="password" type="text" placeholder="비밀번호" />
+                    <Form onSubmit={onSubmit}>
+                        <Input name="username" type="text" placeholder="유저네임" onChange={onChange} required />
+                        <Input name="password" type="text" placeholder="비밀번호" onChange={onChange} required />
                         <Button type="submit">로그인</Button>
                     </Form>
                     <Line>

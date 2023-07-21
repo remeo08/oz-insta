@@ -5,6 +5,7 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Profile from './screens/Profile';
 import Chatting from './screens/Chatting';
+
 import { GlobalStyle, darkTheme, whiteTheme } from './styles';
 import { ThemeProvider } from 'styled-components';
 import { useState } from 'react';
@@ -13,7 +14,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
 
 function App() {
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
 
     return (
