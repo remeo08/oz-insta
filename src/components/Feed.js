@@ -75,6 +75,7 @@ const ProfileImgContainer = styled.div`
 
 const UserPfofileImg = styled.img`
     max-width: 100%;
+    max-height: 100%;
 `;
 
 const Column = styled.div``;

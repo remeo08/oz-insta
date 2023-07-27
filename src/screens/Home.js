@@ -1,8 +1,25 @@
 import Feed from '../components/Feed';
+import { useState, useEffect } from 'react';
 
 function Home() {
-    const datas = getAllFeeds();
-    const data = [
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const fetchData = async () => {
+        const res = await fetch('http://127.0.0.1:8000/api/v1/feeds/');
+        const json = await res.json();
+
+        setData(json);
+        setLoading(false);
+    };
+
+    // API 통신을 할 때 사용
+    // 가장 최초에 컴포넌트가 생성될 때 한 번 useEffect가 실행된다.
+    // -> componentDidMount()
+    useEffect(() => {
+        fetchData();
+    }, []);
+    const datas = [
         {
             id: 1,
             contentImg:
