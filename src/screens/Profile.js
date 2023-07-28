@@ -1,6 +1,8 @@
-import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { getUserFeeds } from '../api';
+import { useParams } from 'react-router-dom';
+import ProfileFeed from 'components/ProfileFeed';
 
 const ProfileContainer = styled.div`
     width: 100%;
@@ -51,39 +53,14 @@ const ContentContainer = styled.div`
     grid-template-rows: 200px;
     grid-gap: 15px;
 `;
-const InnerContainer = styled.div`
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0, 0.5);
-    color: white;
-    opacity: 0;
-    &:hover {
-        opacity: 1;
-    }
-`;
-const Icon = styled.span`
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    margin: 0 5px;
-    svg {
-        font-size: 14px;
-        margin-right: 5px;
-    }
-`;
-const Feed = styled.div`
-    border: 1px solid black;
-    position: relative;
-    background-image: url(${(props) => props.bg});
-    background-size: cover;
-    background-position: center;
-`;
 
 function Profile() {
+    // (1) username 값을 어떻게 가져올 수 있을까?  -> url params
+    const { username } = useParams();
+    console.log('url username', username);
+
+    // (2) 가져온 username 값을 어떻게 서버로 전달할 수 있을까?
+    const { data } = useQuery(['getUserFeeds', username], getUserFeeds);
     return (
         <ProfileContainer>
             <HeaderContainer>
@@ -93,43 +70,11 @@ function Profile() {
                     <Followers>300 followers 100 following</Followers>
                 </UserInfo>
             </HeaderContainer>
+
             <ContentContainer>
-                <Feed bg="https://blog.kakaocdn.net/dn/dGBlmE/btseSCqyFQ0/vPoVPDI7zqueffuMIxosLk/img.jpg">
-                    <InnerContainer>
-                        <Icon>
-                            <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                            좋아요수
-                        </Icon>
-                        <Icon>
-                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            댓글수
-                        </Icon>
-                    </InnerContainer>
-                </Feed>
-                <Feed bg="https://sitem.ssgcdn.com/01/13/94/item/1000177941301_i1_750.jpg">
-                    <InnerContainer>
-                        <Icon>
-                            <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                            좋아요수
-                        </Icon>
-                        <Icon>
-                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            댓글수
-                        </Icon>
-                    </InnerContainer>
-                </Feed>
-                <Feed bg="https://item.kakaocdn.net/do/ad563a09a51ee3b56535ed9587d3d06ef43ad912ad8dd55b04db6a64cddaf76d">
-                    <InnerContainer>
-                        <Icon>
-                            <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-                            좋아요수
-                        </Icon>
-                        <Icon>
-                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            댓글수
-                        </Icon>
-                    </InnerContainer>
-                </Feed>
+                {data?.map((feed) => (
+                    <ProfileFeed key={feed.id} {...feed} />
+                ))}
             </ContentContainer>
         </ProfileContainer>
     );
