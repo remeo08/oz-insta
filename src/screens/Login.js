@@ -5,6 +5,9 @@ import { styled } from 'styled-components';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { sessionLogin } from 'api';
+import { useMutation } from '@tanstack/react-query';
+import { userLoggedIn } from 'apollo';
 
 const Container = styled.div`
     display: flex;
@@ -99,6 +102,18 @@ function Login() {
     //useState(): 컴포넌트에서 바뀌는 변수 또는 값을 관리해주는 함수
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+
+    const userMutation = useMutation(sessionLogin, {
+        onSuccess: (data) => {
+            console.log('onSuccess');
+            console.log('onSuccess data', data);
+            userLoggedIn();
+        },
+        onError: () => {
+            console.log('onError');
+        },
+    });
+
     const onChange = (event) => {
         const { name, value } = event.currentTarget;
         console.log(name, value);
@@ -113,6 +128,13 @@ function Login() {
     const onSubmit = (event) => {
         event.preventDefault(); //새로고침 방지
         console.log('onSubmit');
+
+        // if (password.length < 5) {
+        //     alert('비밀번호가 짧습니다');
+        // }
+
+        // useQuery(GET), useMutation(UPDATE, )
+        userMutation.mutate({ username, password });
     };
 
     return (

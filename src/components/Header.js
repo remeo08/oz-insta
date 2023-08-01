@@ -3,6 +3,9 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faHouse, faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
 
 import { styled } from 'styled-components';
+import { userLogOut } from 'api';
+import { userLoggedOut } from 'apollo';
+import { Button } from '@chakra-ui/react';
 
 const HeaderContainer = styled.div`
     width: 100%;
@@ -27,13 +30,21 @@ const Column = styled.div`
         margin-right: 6px;
     }
 `;
-const Button = styled.div`
-    width: 100px;
-    border: 1px solid black;
-    border-radius: 3px;
-`;
+// const Button = styled.div`
+//     width: 100px;
+//     border: 1px solid black;
+//     border-radius: 3px;
+// `;
 
 function Header() {
+    const onLogout = async () => {
+        const res = await userLogOut();
+
+        if (res) {
+            userLoggedOut();
+        }
+    };
+
     return (
         <HeaderContainer>
             <Wrapper>
@@ -50,7 +61,9 @@ function Header() {
                     <span>
                         <FontAwesomeIcon icon={faUser} size="xl" style={{ color: '#181818' }} />
                     </span>
-                    <Button type="button"></Button>
+                    <span>
+                        <Button onClick={onLogout}>로그아웃</Button>
+                    </span>
                 </Column>
             </Wrapper>
         </HeaderContainer>

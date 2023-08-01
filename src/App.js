@@ -12,10 +12,13 @@ import { useState } from 'react';
 
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
+import { useReactiveVar } from '@apollo/client';
+import { isUserLoggedIn } from './apollo';
 
 function App() {
-    const [isLogin, setIsLogin] = useState(true);
+    //const [isLogin, setIsLogin] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+    const isLogin = useReactiveVar(isUserLoggedIn);
 
     return (
         <HelmetProvider>

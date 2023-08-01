@@ -1,11 +1,13 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { userLoggedIn } from 'apollo';
 
 const instance = axios.create({
     baseURL: 'http://127.0.0.1:8000/api/v1',
     // headers: {
-    //     'X-CSRFToken': faCookie.get('csrftoken'),
+    //     'X-CSRFToken': Cookies.get('csrftoken'),
     // },
-    // withCredentials: true,
+    withCredentials: true,
 });
 
 // (1) GET: getAllFeeds()
@@ -25,4 +27,29 @@ export const getUserFeeds = ({ queryKey }) => {
     const [_, username] = queryKey;
 
     return instance.get('feeds/' + username).then((res) => res.data);
+};
+
+export const sessionLogin = ({ username, password }) => {
+    return instance
+        .post(
+            'users/login',
+            { username, password },
+            {
+                headers: {
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                },
+            }
+        )
+        .then((res) => res.data);
+};
+
+// npm i js-cookie
+export const userLogOut = () => {
+    return instance
+        .post('users/logout', '', {
+            headers: {
+                'X-CSRFToken': Cookies.get('csrftoken'),
+            },
+        })
+        .then((res) => res.data);
 };
